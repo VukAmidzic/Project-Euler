@@ -1,4 +1,6 @@
-;; PROJECT EULER exercises
+;; ----------------------------
+;; | PROJECT EULER exercises  |
+;; ----------------------------
 
 #|
 1. If we list all the natural numbers below 10 that are multiples of 3 or 5,
@@ -54,3 +56,56 @@ By considering the terms in the Fibonacci sequence whose values do not exceed fo
 P.S. Although the code is working, this solution
 might be wrong due to my lack of experience with Common Lisp
 |# 
+
+#|
+3. The prime factors of 13195 are 5, 7, 13 and 29.
+What is the largest prime factor of the number 600851475143?
+
+(defun square (n)
+  (* n n))
+
+(defun dividesp (a b)
+  (zerop (mod b a)))  
+  
+(defun find-divisor (n test-divisor)
+    (cond ((> (square test-divisor) n) n)
+        ((dividesp test-divisor n) test-divisor)
+        (t (find-divisor n (+ 1 test-divisor)))
+    )
+)
+
+(defun smallest-divisor (n)
+  (find-divisor n 2))  
+  
+(defun primep (n)
+  (= n (smallest-divisor n)))
+  
+(defun max-prime ()
+    (setq d 2)
+    (loop with n = 600851475143 for i from 3 to (sqrt n) do
+        (when (and (= 0 (mod n i)) (primep i)) (setq d i))
+    )
+    d
+)
+
+(write (max-prime))
+|#
+
+#|
+5. 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
+
+What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+
+(defun biggest-lcm (n)
+    (setq res 2)
+    (loop for i from 3 to n do
+        (setq res (lcm res i))
+    )
+    res
+)
+
+(write (biggest-lcm 20))
+
+|# 
+
+
