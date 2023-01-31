@@ -1,0 +1,44 @@
+;; ----------------------------
+;; |  PROJECT EULER exercise  |
+;; ----------------------------
+
+#|
+30. Digit fifth powers
+
+2^15 = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
+
+What is the sum of the digits of the number 2^1000?
+|#
+
+(defun square (n) (* n n))
+
+(defun pow (b n)
+    (cond 
+        ((= n 0) 1)
+        ((zerop (mod n 2)) (square (pow b (/ n 2))))
+        (t (* b (square (pow b (/ (- n 1) 2)))))
+    )
+)
+
+(defun num-to-list (n)
+    (loop for c across (write-to-string n) collect (digit-char-p c))
+)
+
+(defun sum-list (ls)
+    (cond
+        ((endp ls) 0)
+        (t (+ (pow (car ls) 5) (sum-list (cdr ls))))
+    )
+)
+
+(defun num-dig-sum (b)
+    (sum-list (num-to-list b))
+)
+
+(defun solution ()
+    (setq res 0)
+    (loop for i from 10 to 354295 do
+        (if (= i (num-dig-sum i)) (setq res (+ res i)))
+    )
+    res
+)
