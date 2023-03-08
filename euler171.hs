@@ -19,7 +19,7 @@ num_digits :: Integral x => x -> [x]
 num_digits 0 = []
 num_digits x = num_digits (div x 10) ++ [mod x 10]
 
-is_square_mem =
+is_square =
   let check n = sq * sq == n
         where sq = floor $ sqrt $ (fromIntegral n :: Double)
   in (map check [0..] !!)
@@ -29,6 +29,7 @@ f n = foldr (+) 0 (map (\i -> i * i) (num_digits n))
 
 sums = map (\n -> div (n * (n + 1)) 2) [15000..10^20]
 
-filter_sums = filter (is_square_mem . f) sums
+filter_sums = filter (is_square . f) sums
 
-fst_perfect = head $ filter_sums
+fst_perfect = mod (head $ filter_sums) d
+    where d = 10^9
