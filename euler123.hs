@@ -17,4 +17,5 @@ Find the least value of n for which the remainder first exceeds 10^10.
 
 import Data.Numbers.Primes
 
+-- For some reason it gives an even n, which is not the answer. Just add +1 on the result of this function
 solution = fst . head . dropWhile (\(n,p) -> (2*n*p + 2) < 10^10) $ zip [1..] primes
